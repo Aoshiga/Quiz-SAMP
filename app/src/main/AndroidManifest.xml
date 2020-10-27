@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.QuizSAMP">
-        <activity android:name=".ThemeActivity"></activity>
+        <activity android:name=".ScoreActivity"></activity>
+        <activity android:name=".QuestionActivity" />
+        <activity android:name=".ThemeActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

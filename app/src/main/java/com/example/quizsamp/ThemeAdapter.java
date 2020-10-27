@@ -1,5 +1,6 @@
 package com.example.quizsamp;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +43,13 @@ public class ThemeAdapter extends BaseAdapter {
         } else {
             view = convertView;
         }
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(parent.getContext(), QuestionActivity.class);
+                parent.getContext().startActivity(intent);
+            }
+        });
 
         ((TextView) view.findViewById(R.id.themeName)).setText(themeList.get(position));
 

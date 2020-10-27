@@ -2,4 +2,7 @@
     <string name="app_name">Quiz SAMP</string>
     <string name="b_play">Play</string>
     <string name="t_logo_description">Logo</string>
+    <string name="score">Résultat :</string>
+    <string name="retry">Réessayer</string>
+    <string name="return_menu">Retour aux thèmes</string>
 </resources>
