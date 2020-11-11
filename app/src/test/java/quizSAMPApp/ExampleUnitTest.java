@@ -1,4 +1,4 @@
-package com.example.quizsamp;
+package quizSAMPApp;
 
 import org.junit.Test;
 

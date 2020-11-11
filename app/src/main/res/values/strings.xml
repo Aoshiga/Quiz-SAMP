@@ -5,4 +5,10 @@
     <string name="score">Résultat :</string>
     <string name="retry">Réessayer</string>
     <string name="return_menu">Retour aux thèmes</string>
+    <string name="b_play_theme">Jouer</string>
+    <string name="mi_edit">Editer les thèmes</string>
+    <string name="b_icon_delete">Icon supprimer</string>
+    <string name="b_icon_add">Icon ajouter</string>
+    <string name="b_add_theme">Ajouter</string>
+    <string name="et_add_theme_name">Entrer le nom du thème</string>
 </resources>

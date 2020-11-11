@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".QuestionActivity">
+    tools:context="quizSAMPApp.vue.QuestionActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -60,7 +60,7 @@
             android:id="@+id/b_answer1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Reponse 1"
+            android:text="Réponse 1"
             android:textColor="#2B3547"
             android:textSize="14sp"
             android:elevation="3dp"
@@ -76,7 +76,7 @@
             android:id="@+id/b_answer2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Reponse 2"
+            android:text="Réponse 2"
             android:textColor="#2B3547"
             android:textSize="14sp"
             android:elevation="3dp"
@@ -92,7 +92,7 @@
             android:id="@+id/b_answer3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Reponse 3"
+            android:text="Réponse 3"
             android:textColor="#2B3547"
             android:textSize="14sp"
             android:elevation="3dp"
@@ -108,7 +108,7 @@
             android:id="@+id/b_answer4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Reponse 4"
+            android:text="Réponse 4"
             android:textColor="#2B3547"
             android:textSize="14sp"
             android:elevation="3dp"

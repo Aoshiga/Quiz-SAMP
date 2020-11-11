@@ -1,4 +1,4 @@
-package com.example.quizsamp;
+package quizSAMPApp;
 
 import android.content.Context;
 

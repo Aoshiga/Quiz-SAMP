@@ -1,4 +1,4 @@
-package com.example.quizsamp;
+package quizSAMPApp.vue;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,8 +13,13 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.quizsamp.R;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import quizSAMPApp.modele.Question;
+import quizSAMPApp.modele.Theme;
 
 public class QuestionActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -83,14 +88,13 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private void getQuestionList()
     {
         questionList = new ArrayList<>();
+        //questionList = (List<Question>) getIntent().getSerializableExtra("QUESTION");
         questionList.add(new Question("Le Master en Informatique peut-il se faire en alternance ?", "Oui", "Non", null, null, 1));
         questionList.add(new Question("Qui est le responsable du CMI ? ", "B. Tatibouët", "A. Giorgetti", "F. Dadeau", null, 3));
         questionList.add(new Question("Quelle est la durée maximale d'un stage ?", "12 semaines", "3 mois", "6 mois", "8 mois", 4));
 
         setQuestion();
-
         quesNum = 0;
-
     }
 
     @SuppressLint("SetTextI18n")
@@ -166,8 +170,9 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             Intent intent = new Intent(QuestionActivity.this, ScoreActivity.class);
             intent.putExtra("SCORE", score + " points");
             intent.putExtra("PERCENT", (int)((float) score/(float) questionList.size() *100.0) + "% de réponses justes");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-            QuestionActivity.this.finish();
+            //QuestionActivity.this.finish();
         }
     }
 

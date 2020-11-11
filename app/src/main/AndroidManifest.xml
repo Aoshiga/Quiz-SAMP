@@ -9,10 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.QuizSAMP">
-        <activity android:name=".ScoreActivity"></activity>
-        <activity android:name=".QuestionActivity" />
-        <activity android:name=".ThemeActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name="quizSAMPApp.vue.EditActivity"></activity>
+        <activity android:name="quizSAMPApp.vue.ScoreActivity" />
+        <activity android:name="quizSAMPApp.vue.QuestionActivity" />
+        <activity android:name="quizSAMPApp.vue.ThemeActivity" />
+        <activity android:name="quizSAMPApp.vue.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
