@@ -32,10 +32,10 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ViewHolder> 
     private Context ctx;
     private Cursor cursor;
 
-    public ThemeAdapter(Context context, Cursor c) {
-        //this.themeList;
+    public ThemeAdapter(Context context, Cursor c, List<Theme> lt) {
         this.cursor = c;
         this.ctx = context;
+        this.themeList = lt;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -57,30 +57,16 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ViewHolder> 
     }
 
     public void onBindViewHolder(final ViewHolder holder, final int pos) {
-        /*final Theme t = themeList.get(pos);
-        holder.themeName.setText(t.getTheme());
+        final Theme t = themeList.get(pos);
 
-        if(t.getQuestionList().isEmpty()) {
-            holder.bStart.setVisibility(View.GONE);
-            //holder.themeName.setVisibility(View.INVISIBLE);
-        }
-
-        holder.bStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ctx, QuestionActivity.class);
-                intent.putExtra("QUESTION", (Serializable) t.getQuestionList());
-                ctx.startActivity(intent);
-            }
-        });*/
         if(!cursor.moveToPosition(pos)) return;
-
-        //final Theme t = themeList.get(pos);
         String name = cursor.getString(cursor.getColumnIndex(QuizSAMPDBDescription.COLUMN_THEME_NAME));
         int id = cursor.getInt(cursor.getColumnIndex(QuizSAMPDBDescription._ID));
         holder.themeName.setText(name);
-        /* Need to be change later */
-        holder.bStart.setVisibility(View.GONE);
+
+        if(t.getQuestionList().isEmpty()) {
+            holder.bStart.setVisibility(View.GONE);
+        }
 
         holder.themeName.setOnClickListener(v -> { Toast.makeText(ctx,name,Toast.LENGTH_LONG).show(); } );
 
@@ -88,7 +74,7 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ViewHolder> 
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ctx, QuestionActivity.class);
-                //intent.putExtra("QUESTION", (Serializable) t.getQuestionList());
+                intent.putExtra("QUESTION", (Serializable) t.getQuestionList());
                 ctx.startActivity(intent);
             }
         });
@@ -103,61 +89,6 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ViewHolder> 
     }
 
     public int getItemCount() {
-        int profilesCount = QuizSAMPDBHelper.getProfilesCount();
-        return profilesCount;
+        return QuizSAMPDBHelper.getThemesProfilesCount();
     }
-
-    @Override
-    public long getItemId(int position)
-    {
-        return cursor.getInt(cursor.getColumnIndex(QuizSAMPDBDescription._ID));
-    }
-
-    /*
-    private List<Theme> themeList;
-
-    public ThemeAdapter(List<Theme> themeList) {
-        this.themeList = themeList;
-    }
-
-    @Override
-    public int getCount()
-    {
-        return themeList.size();
-    }
-
-    @Override
-    public Object getItem(int position)
-    {
-        return null;
-    }
-
-    @Override
-    public long getItemId(int position)
-    {
-        return 0;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent)
-    {
-        View view;
-        if(convertView == null){
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.theme_item, parent, false);
-        } else {
-            view = convertView;
-        }
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(parent.getContext(), QuestionActivity.class);
-                parent.getContext().startActivity(intent);
-            }
-        });
-
-        ((TextView) view.findViewById(R.id.themeName)).setText(themeList.get(position).getTheme());
-
-        return view;
-    }
-    */
 }

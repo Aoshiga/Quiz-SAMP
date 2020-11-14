@@ -10,6 +10,12 @@ import android.widget.TextView;
 
 import com.example.quizsamp.R;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import quizSAMPApp.modele.Question;
+
 public class ScoreActivity extends AppCompatActivity {
 
     private TextView point;
@@ -45,6 +51,7 @@ public class ScoreActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ScoreActivity.this, QuestionActivity.class);
+                intent.putExtra("QUESTION", getIntent().getSerializableExtra("QUESTION"));
                 ScoreActivity.this.startActivity(intent);
                 ScoreActivity.this.finish();
             }

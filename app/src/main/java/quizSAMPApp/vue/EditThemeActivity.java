@@ -10,34 +10,26 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.example.quizsamp.R;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import quizSAMPApp.database.QuizSAMPDBHelper;
-import quizSAMPApp.modele.Question;
-import quizSAMPApp.modele.Theme;
-import quizSAMPApp.modele.Themes;
 
-public class EditActivity extends AppCompatActivity {
+public class EditThemeActivity extends AppCompatActivity {
 
     //private GridView themeGrid;
 
     private RecyclerView viewThemes;
-    private EditAdapter adapter;
+    private EditThemeAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private Dialog addThemeDialog;
     private ImageButton bAddTheme;
@@ -51,7 +43,7 @@ public class EditActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 setResult(RESULT_OK, null);
-                EditActivity.this.finish();
+                EditThemeActivity.this.finish();
                 break;
         }
 
@@ -67,11 +59,11 @@ public class EditActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit);
+        setContentView(R.layout.activity_edit_theme);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Thèmes");
+        getSupportActionBar().setTitle("Edition des thèmes");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         themes = new QuizSAMPDBHelper(this);
@@ -79,7 +71,7 @@ public class EditActivity extends AppCompatActivity {
         viewThemes = (RecyclerView) findViewById(R.id.rv_themeView);
         layoutManager = new LinearLayoutManager(this);
         viewThemes.setLayoutManager(layoutManager);
-        adapter = new EditAdapter(this, themes.getValuesCursor());
+        adapter = new EditThemeAdapter(this, themes.getThemeValuesCursor());
         viewThemes.setAdapter(adapter);
 
         ItemTouchHelper.SimpleCallback simpleCallback =
@@ -99,17 +91,10 @@ public class EditActivity extends AppCompatActivity {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(viewThemes);
 
-        /* Delete button */
-        /*ImageButton bDelete = (ImageButton) findViewById(R.id.b_delete);
-        bDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertRemoveTheme();
-            }
-        });*/
+
         bAddTheme = findViewById(R.id.b_add_theme);
 
-        addThemeDialog = new Dialog(EditActivity.this);
+        addThemeDialog = new Dialog(EditThemeActivity.this);
         addThemeDialog.setContentView(R.layout.add_theme_dialog);
         addThemeDialog.setCancelable(true);
         addThemeDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -132,6 +117,7 @@ public class EditActivity extends AppCompatActivity {
                 else {
                     try {
                         addTheme(etAddTheme.getText().toString());
+                        addThemeDialog.dismiss();
                     } catch (SQLiteConstraintException e) {
                         etAddTheme.setError("Impossible d'ajouter ce thème.\nCause probable : thème déjà existant.");
                     }
@@ -140,10 +126,10 @@ public class EditActivity extends AppCompatActivity {
         });
     }
 
-    public void addTheme(String name/*, List<Question> q*/) {
+    public void addTheme(String name) {
         themes.insertTheme(name);
         //if(adapter.hasObservers()) adapter.notifyItemInserted(adapter.getItemCount());
-        adapter.swapCursor(themes.getValuesCursor());
+        adapter.swapCursor(themes.getThemeValuesCursor());
     }
 
     public void alertRemoveTheme(RecyclerView.ViewHolder viewHolder){
@@ -175,7 +161,7 @@ public class EditActivity extends AppCompatActivity {
 
     public void removeTheme(int pos) {
         themes.deleteThemeById(pos);
-        adapter.swapCursor(themes.getValuesCursor());
+        adapter.swapCursor(themes.getThemeValuesCursor());
     }
 
     public void moveTheme(int indexSource, int indexCible) {

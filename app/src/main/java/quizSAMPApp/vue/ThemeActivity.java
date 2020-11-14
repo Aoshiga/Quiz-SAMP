@@ -1,29 +1,21 @@
 package quizSAMPApp.vue;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Adapter;
 
 import com.example.quizsamp.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import quizSAMPApp.database.QuizSAMPDBHelper;
 import quizSAMPApp.modele.Question;
-import quizSAMPApp.modele.Theme;
-import quizSAMPApp.modele.Themes;
 
 public class ThemeActivity extends AppCompatActivity {
 
@@ -52,7 +44,7 @@ public class ThemeActivity extends AppCompatActivity {
                 ThemeActivity.this.finish();
                 break;
             case R.id.action_edit:
-                Intent intent = new Intent(this, EditActivity.class);
+                Intent intent = new Intent(this, EditThemeActivity.class);
                 this.startActivityForResult(intent, 1);
                 break;
         }
@@ -81,7 +73,7 @@ public class ThemeActivity extends AppCompatActivity {
         viewThemes = (RecyclerView) findViewById(R.id.rv_themeView);
         layoutManager = new LinearLayoutManager(this);
         viewThemes.setLayoutManager(layoutManager);
-        adapter = new ThemeAdapter(this, themes.getValuesCursor());
+        adapter = new ThemeAdapter(this, themes.getThemeValuesCursor(), themes.getAll());
         viewThemes.setAdapter(adapter);
 
 
@@ -130,7 +122,7 @@ public class ThemeActivity extends AppCompatActivity {
     public void addTheme(String name, List<Question> q) {
         themes.insertTheme(name);
         //if(adapter.hasObservers()) adapter.notifyItemInserted(adapter.getItemCount());
-        adapter.swapCursor(themes.getValuesCursor());
+        adapter.swapCursor(themes.getThemeValuesCursor());
     }
 
     public void removeTheme(int pos) {
@@ -138,7 +130,7 @@ public class ThemeActivity extends AppCompatActivity {
         if(adapter.hasObservers()) adapter.notifyItemRemoved(pos);
         else {
             themes.deleteThemeById(pos);
-            adapter.swapCursor(themes.getValuesCursor());
+            adapter.swapCursor(themes.getThemeValuesCursor());
         }
     }
 

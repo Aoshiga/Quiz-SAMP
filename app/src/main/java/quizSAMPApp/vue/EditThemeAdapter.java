@@ -1,6 +1,7 @@
 package quizSAMPApp.vue;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,36 +14,40 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quizsamp.R;
+
+import java.io.Serializable;
 import java.util.List;
 
 import quizSAMPApp.database.QuizSAMPDBDescription;
 import quizSAMPApp.database.QuizSAMPDBHelper;
 import quizSAMPApp.modele.Theme;
 
-public class EditAdapter extends RecyclerView.Adapter<EditAdapter.ViewHolder> {
+public class EditThemeAdapter extends RecyclerView.Adapter<EditThemeAdapter.ViewHolder> {
 
     private List<Theme> themeList;
     private Context ctx;
     private Cursor cursor;
 
-    public EditAdapter(Context context, Cursor c) {
+    public EditThemeAdapter(Context context, Cursor c) {
         //this.themeList;
         this.cursor = c;
         this.ctx = context;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        public TextView themeName;
-        public ImageButton bDelete;
+        private TextView themeName;
+        private ImageButton bDelete;
+        private Button bEdit;
 
         public ViewHolder(View v) {
             super(v);
             themeName = v.findViewById(R.id.t_themeName);
             bDelete = v.findViewById(R.id.b_delete);
+            bEdit = v.findViewById(R.id.b_edit);
         }
     }
 
-    public EditAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public EditThemeAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View v = inflater.inflate(R.layout.theme_item_edit, parent, false);
         ViewHolder vh = new ViewHolder(v);
@@ -60,7 +65,16 @@ public class EditAdapter extends RecyclerView.Adapter<EditAdapter.ViewHolder> {
         holder.bDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((EditActivity) ctx).alertRemoveTheme(holder);
+                ((EditThemeActivity) ctx).alertRemoveTheme(holder);
+            }
+        });
+
+        holder.bEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ctx, EditQuestionActivity.class);
+                intent.putExtra("THEMENAME", holder.themeName.getText());
+                ctx.startActivity(intent);
             }
         });
 
@@ -74,14 +88,6 @@ public class EditAdapter extends RecyclerView.Adapter<EditAdapter.ViewHolder> {
     }
 
     public int getItemCount() {
-        int profilesCount = QuizSAMPDBHelper.getProfilesCount();
-        return profilesCount;
+        return QuizSAMPDBHelper.getThemesProfilesCount();
     }
-
-    @Override
-    public long getItemId(int position)
-    {
-        return cursor.getInt(cursor.getColumnIndex(QuizSAMPDBDescription._ID));
-    }
-
 }

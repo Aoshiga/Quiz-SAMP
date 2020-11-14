@@ -11,4 +11,10 @@
     <string name="b_icon_add">Icon ajouter</string>
     <string name="b_add_theme">Ajouter</string>
     <string name="et_add_theme_name">Entrer le nom du thème</string>
+    <string name="et_add_question">Question</string>
+    <string name="et_add_answerA">Réponse 1</string>
+    <string name="et_add_answerB">Réponse 2</string>
+    <string name="et_add_answerC">Réponse 3</string>
+    <string name="et_add_answerD">Réponse 4</string>
+    <string name="et_add_correctAnswer">Bonne réponse</string>
 </resources>

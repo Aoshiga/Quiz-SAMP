@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.example.quizsamp.R;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,34 +88,26 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
     private void getQuestionList()
     {
-        questionList = new ArrayList<>();
-        //questionList = (List<Question>) getIntent().getSerializableExtra("QUESTION");
-        questionList.add(new Question("Le Master en Informatique peut-il se faire en alternance ?", "Oui", "Non", null, null, 1));
-        questionList.add(new Question("Qui est le responsable du CMI ? ", "B. Tatibouët", "A. Giorgetti", "F. Dadeau", null, 3));
-        questionList.add(new Question("Quelle est la durée maximale d'un stage ?", "12 semaines", "3 mois", "6 mois", "8 mois", 4));
-
+        questionList = (List<Question>) getIntent().getSerializableExtra("QUESTION");
         setQuestion();
         quesNum = 0;
     }
 
-    @SuppressLint("SetTextI18n")
     private void setQuestion()
     {
-        /*for (Question q : questionList) {
-            question.setText((questionList.get(0)));
-        }*/
         question.setText(questionList.get(0).getQuestion());
         answer1.setText(questionList.get(0).getAnswer1());
         answer2.setText(questionList.get(0).getAnswer2());
         answer3.setText(questionList.get(0).getAnswer3());
         answer4.setText(questionList.get(0).getAnswer4());
 
-        if(questionList.get(quesNum).getAnswer3() == null)  answer3.setVisibility(View.INVISIBLE);
+        if(questionList.get(quesNum).getAnswer3().isEmpty())  answer3.setVisibility(View.INVISIBLE);
         else answer3.setVisibility(View.VISIBLE);
-        if(questionList.get(quesNum).getAnswer4() == null)  answer4.setVisibility(View.INVISIBLE);
+        if(questionList.get(quesNum).getAnswer4().isEmpty())  answer4.setVisibility(View.INVISIBLE);
         else answer4.setVisibility(View.VISIBLE);
 
-        question_nbr.setText(1 + "/" + questionList.size());
+        String s = 1 + "/" + questionList.size();
+        question_nbr.setText(s);
 
     }
 
@@ -150,7 +143,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         //changeQuestion();
     }
 
-    @SuppressLint("SetTextI18n")
     private void changeQuestion()
     {
         if(quesNum < questionList.size() -1 )
@@ -162,7 +154,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             passQuestion(answer3, 0, 3);
             passQuestion(answer4, 0, 4);
 
-            question_nbr.setText((quesNum+1) + "/" + questionList.size());
+            String s = (quesNum+1) + "/" + questionList.size();
+            question_nbr.setText(s);
 
 
         } else {
@@ -170,6 +163,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             Intent intent = new Intent(QuestionActivity.this, ScoreActivity.class);
             intent.putExtra("SCORE", score + " points");
             intent.putExtra("PERCENT", (int)((float) score/(float) questionList.size() *100.0) + "% de réponses justes");
+            intent.putExtra("QUESTION", (Serializable) questionList);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             //QuestionActivity.this.finish();
@@ -178,7 +172,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
     private void passQuestion(View view, final int value, int viewNum)
     {
-        view.animate().alpha(value).scaleX(value).scaleY(value).setDuration(400)
+        view.animate().alpha(value).scaleX(value).scaleY(value).setDuration(200)
                 .setStartDelay(100).setInterpolator(new DecelerateInterpolator())
                 .setListener(new Animator.AnimatorListener() {
                     @Override
@@ -201,12 +195,12 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                                     break;
                                 case 3:
                                     ((Button)view).setText(questionList.get(quesNum).getAnswer3());
-                                    if(questionList.get(quesNum).getAnswer3() == null)  answer3.setVisibility(View.INVISIBLE);
+                                    if(questionList.get(quesNum).getAnswer3().isEmpty())  answer3.setVisibility(View.INVISIBLE);
                                     else answer3.setVisibility(View.VISIBLE);
                                     break;
                                 case 4:
                                     ((Button)view).setText(questionList.get(quesNum).getAnswer4());
-                                    if(questionList.get(quesNum).getAnswer4() == null)  answer4.setVisibility(View.INVISIBLE);
+                                    if(questionList.get(quesNum).getAnswer4().isEmpty())  answer4.setVisibility(View.INVISIBLE);
                                     else answer4.setVisibility(View.VISIBLE);
                                     break;
                             }
