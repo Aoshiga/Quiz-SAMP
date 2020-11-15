@@ -68,13 +68,29 @@ public class QuizSAMPDBHelper extends SQLiteOpenHelper {
         db.execSQL(DATABASE_CREATE_QUESTION);
 
         /*Add default theme*/
-        insertTheme("Informatique");
-        insertQuestion("Informatique", "Le Master en Informatique peut-il se faire en alternance ?", "Oui", "Non", null, null, 1);
-        insertQuestion("Informatique", "Qui est le responsable du CMI ? ", "B. Tatibouët", "A. Giorgetti", "F. Dadeau", null, 3);
-        insertQuestion("Informatique", "Quelle est la durée maximale d'un stage ?", "12 semaines", "3 mois", "6 mois", "8 mois", 4);
+        //insertTheme("Informatique");
+        //insertQuestion("Informatique", "Le Master en Informatique peut-il se faire en alternance ?", "Oui", "Non", null, null, 1);
+        //insertQuestion("Informatique", "Qui est le responsable du CMI ? ", "B. Tatibouët", "A. Giorgetti", "F. Dadeau", null, 3);
+        //insertQuestion("Informatique", "Quelle est la durée maximale d'un stage ?", "12 semaines", "3 mois", "6 mois", "8 mois", 4);
 
-        insertTheme("Nourriture");
-        insertTheme("Musique");
+        insertTheme("Animaux");
+        insertQuestion("Animaux", "Quel animal meugle ?", "La vache", "Le cheval", "La brebis", "L'éléphant", 1);
+        insertQuestion("Animaux", "Quel animal ne trouve t-on pas dans la savane ?", "L'antilope", "Le phacochère", "Le jaguar", "Le guépard", 3);
+        insertQuestion("Animaux", "Quel animal respire sous l'eau ?", "Le dauphin", "La raie", "La grenouille", "Le castor", 2);
+        insertQuestion("Animaux", "Quel animal ne se mange pas ?", "La chauve-souris civette", "La taupe", "Le rat", "La migale", 2);
+        insertQuestion("Animaux", "Quel animal n'appartient pas au grand singe ?", "L'aurand-outan", "Le chimpanzé", "Le macacaque", "Le lémure", 4);
+
+        insertTheme("Cuisine");
+        insertQuestion("Cuisine", "Une marise est un ustensile de cuisine", "Vrai", "Faux", null, null, 1);
+        insertQuestion("Cuisine", "Quel ingrédient ne trouve t-on pas dans un fondant au chocolat ?", "Le chocolat", "La levure", "Le sel", "Le sucre", 2);
+        insertQuestion("Cuisine", "Quel est l'origine des crêpes ?", "Italien", "Espagnole", "Américains", "Français", 4);
+        insertQuestion("Cuisine", "Quel ingrédient n'est pas concidéré comme une épice ?", "Le safran", "Le poivre", "Le sel", null, 3);
+        insertQuestion("Cuisine", "Le cheese cake est un gateau ?", "A la crème", "Au fromage", "A la confiture", null, 1);
+
+        insertTheme("Technologie");
+        insertQuestion("Technologie", "L'hyperloop a réussie son premier test avec des passagers en quelle année ?", "2014", "2018", "2019", "2021", 4);
+        insertQuestion("Technologie", "Quelle langage informatique est le plus utilisé parmis ceux proposés ?", "C", "Kotlin", "Ruby", "OCaml", 1);
+        insertQuestion("Technologie", "Qu'est ce que l'acronyme CTRL signifie ?", "Code To Real Language", "Coût Technologique Réel d'un Langage", "ConTRoLe", "CôTé ReLié", 3);
     }
 
     @Override
@@ -116,6 +132,18 @@ public class QuizSAMPDBHelper extends SQLiteOpenHelper {
         values.put(QuizSAMPDBDescription.COLUMN_ANSWER4, answer4);
         values.put(QuizSAMPDBDescription.COLUMN_CORRECT_ANSWER, correctAnswer);
         db.insertOrThrow(QuizSAMPDBDescription.QUESTION_TABLE_NAME, null, values);
+    }
+
+    public void updateQuestion(int id, String question, String answer1, String answer2, String answer3, String answer4, int correctAnswer) {
+        ContentValues values = new ContentValues();
+        values.put(QuizSAMPDBDescription.COLUMN_QUESTION, question);
+        values.put(QuizSAMPDBDescription.COLUMN_ANSWER1, answer1);
+        values.put(QuizSAMPDBDescription.COLUMN_ANSWER2, answer2);
+        values.put(QuizSAMPDBDescription.COLUMN_ANSWER3, answer3);
+        values.put(QuizSAMPDBDescription.COLUMN_ANSWER4, answer4);
+        values.put(QuizSAMPDBDescription.COLUMN_CORRECT_ANSWER, correctAnswer);
+        String where = QuizSAMPDBDescription._ID + " = " + id;
+        db.update(QuizSAMPDBDescription.QUESTION_TABLE_NAME, values, where, null);
     }
 
     public List<Theme> getAll() {

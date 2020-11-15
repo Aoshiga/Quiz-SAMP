@@ -8,7 +8,6 @@ public class QuizSAMPDBDescription implements BaseColumns {
     //Theme table
     public static final String THEME_TABLE_NAME = "themesList";
     public static final String COLUMN_THEME_NAME = "themeName";
-    public static final String COLUMN_QUESTIONS = "questionsList";
 
     //Question table
     public static final String QUESTION_TABLE_NAME = "questionsList";

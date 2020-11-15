@@ -17,4 +17,12 @@
     <string name="et_add_answerC">Réponse 3</string>
     <string name="et_add_answerD">Réponse 4</string>
     <string name="et_add_correctAnswer">Bonne réponse</string>
+    <string name="mi_play">Jouer à Quiz SAMP</string>
+    <string name="default_point_score">0 point</string>
+    <string name="default_percentage_score">0% de réponses justes</string>
+    <string name="default_question_text">Question</string>
+    <string name="b_edit_question">Editer</string>
+    <string name="b_delete_question">Supprimer</string>
+    <string name="default_theme">Theme</string>*
+    <string name="b_edit_questions">Editer questions</string>
 </resources>

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
 import android.view.Menu;
@@ -32,9 +33,7 @@ public class EditThemeActivity extends AppCompatActivity {
     private EditThemeAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private Dialog addThemeDialog;
-    private ImageButton bAddTheme;
     private EditText etAddTheme;
-    private Button bValidateTheme;
 
     QuizSAMPDBHelper themes;
 
@@ -43,6 +42,12 @@ public class EditThemeActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 setResult(RESULT_OK, null);
+                EditThemeActivity.this.finish();
+                break;
+
+            case R.id.action_play:
+                Intent intent = new Intent(this, ThemeActivity.class);
+                this.startActivity(intent);
                 EditThemeActivity.this.finish();
                 break;
         }
@@ -92,7 +97,7 @@ public class EditThemeActivity extends AppCompatActivity {
         itemTouchHelper.attachToRecyclerView(viewThemes);
 
 
-        bAddTheme = findViewById(R.id.b_add_theme);
+        ImageButton bAddTheme = findViewById(R.id.b_add_theme);
 
         addThemeDialog = new Dialog(EditThemeActivity.this);
         addThemeDialog.setContentView(R.layout.add_theme_dialog);
@@ -100,27 +105,21 @@ public class EditThemeActivity extends AppCompatActivity {
         addThemeDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         etAddTheme = addThemeDialog.findViewById(R.id.et_add_theme_name);
-        bValidateTheme = addThemeDialog.findViewById(R.id.b_validate_theme);
+        Button bValidateTheme = addThemeDialog.findViewById(R.id.b_validate_theme);
 
-        bAddTheme.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                etAddTheme.getText().clear();
-                addThemeDialog.show();
-            }
+        bAddTheme.setOnClickListener(v -> {
+            etAddTheme.getText().clear();
+            addThemeDialog.show();
         });
 
-        bValidateTheme.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(etAddTheme.getText().toString().isEmpty()) etAddTheme.setError("Aucun nom saisie!");
-                else {
-                    try {
-                        addTheme(etAddTheme.getText().toString());
-                        addThemeDialog.dismiss();
-                    } catch (SQLiteConstraintException e) {
-                        etAddTheme.setError("Impossible d'ajouter ce thème.\nCause probable : thème déjà existant.");
-                    }
+        bValidateTheme.setOnClickListener(v -> {
+            if(etAddTheme.getText().toString().isEmpty()) etAddTheme.setError("Aucun nom saisie!");
+            else {
+                try {
+                    addTheme(etAddTheme.getText().toString());
+                    addThemeDialog.dismiss();
+                } catch (SQLiteConstraintException e) {
+                    etAddTheme.setError("Impossible d'ajouter ce thème.\nCause probable : thème déjà existant.");
                 }
             }
         });
@@ -139,20 +138,16 @@ public class EditThemeActivity extends AppCompatActivity {
 
         builder.setPositiveButton(
                 "Supprimer",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        removeTheme(viewHolder.getAdapterPosition());
-                        dialog.cancel();
-                    }
+                (dialog, id) -> {
+                    removeTheme(viewHolder.getAdapterPosition());
+                    dialog.cancel();
                 });
 
         builder.setNegativeButton(
                 "Annuler",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        adapter.notifyItemChanged(viewHolder.getAdapterPosition());
-                        dialog.cancel();
-                    }
+                (dialog, id) -> {
+                    adapter.notifyItemChanged(viewHolder.getAdapterPosition());
+                    dialog.cancel();
                 });
 
         AlertDialog alert = builder.create();

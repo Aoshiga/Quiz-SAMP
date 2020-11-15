@@ -42,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="0 point"
+            android:text="@string/default_point_score"
             android:textColor="@color/blue_secondary"
             android:textSize="24sp" />
 
@@ -51,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="0% de réponses justes"
+            android:text="@string/default_percentage_score"
             android:textColor="@color/blue_secondary"
             android:textSize="24sp" />
 

@@ -12,15 +12,10 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.TextView;
-
 import com.example.quizsamp.R;
-
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-
 import quizSAMPApp.modele.Question;
-import quizSAMPApp.modele.Theme;
 
 public class QuestionActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -29,6 +24,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private List<Question> questionList;
     private int quesNum;
     private int score;
+    private boolean alreadyClick = false;
 
     private Button answer1;
     private Button answer2;
@@ -60,30 +56,32 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
 
-        int select_answer = 0;
+        if(!alreadyClick) {
+            int select_answer = 0;
 
-        switch (v.getId())
-        {
-            case R.id.b_answer1 :
-                select_answer = 1;
-                break;
+            switch (v.getId()) {
+                case R.id.b_answer1:
+                    select_answer = 1;
+                    break;
 
-            case R.id.b_answer2 :
-                select_answer = 2;
-                break;
+                case R.id.b_answer2:
+                    select_answer = 2;
+                    break;
 
-            case R.id.b_answer3 :
-                select_answer = 3;
-                break;
+                case R.id.b_answer3:
+                    select_answer = 3;
+                    break;
 
-            case R.id.b_answer4 :
-                select_answer = 4;
-                break;
+                case R.id.b_answer4:
+                    select_answer = 4;
+                    break;
 
-            default:
+                default:
+            }
+
+            alreadyClick = true;
+            response(select_answer, v);
         }
-
-        response(select_answer, v);
     }
 
     private void getQuestionList()
@@ -98,13 +96,26 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         question.setText(questionList.get(0).getQuestion());
         answer1.setText(questionList.get(0).getAnswer1());
         answer2.setText(questionList.get(0).getAnswer2());
-        answer3.setText(questionList.get(0).getAnswer3());
-        answer4.setText(questionList.get(0).getAnswer4());
 
-        if(questionList.get(quesNum).getAnswer3().isEmpty())  answer3.setVisibility(View.INVISIBLE);
-        else answer3.setVisibility(View.VISIBLE);
-        if(questionList.get(quesNum).getAnswer4().isEmpty())  answer4.setVisibility(View.INVISIBLE);
-        else answer4.setVisibility(View.VISIBLE);
+        if(questionList.get(quesNum).getAnswer3() == null) {
+            answer3.setVisibility(View.INVISIBLE);
+        } else {
+            if ((questionList.get(quesNum).getAnswer3().isEmpty())) answer3.setVisibility(View.INVISIBLE);
+            else {
+                answer3.setVisibility(View.VISIBLE);
+                answer3.setText(questionList.get(quesNum).getAnswer3());
+            }
+        }
+
+        if(questionList.get(quesNum).getAnswer4() == null) {
+            answer4.setVisibility(View.INVISIBLE);
+        } else {
+            if (questionList.get(quesNum).getAnswer4().isEmpty()) answer4.setVisibility(View.INVISIBLE);
+            else {
+                answer4.setVisibility(View.VISIBLE);
+                answer4.setText(questionList.get(quesNum).getAnswer4());
+            }
+        }
 
         String s = 1 + "/" + questionList.size();
         question_nbr.setText(s);
@@ -138,9 +149,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         }
 
         Handler handler = new Handler();
-        handler.postDelayed(this::changeQuestion, 1500);
-
-        //changeQuestion();
+        handler.postDelayed(this::changeQuestion, 1000);
     }
 
     private void changeQuestion()
@@ -183,6 +192,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         if(value == 0){
+                            alreadyClick = false;
                             switch (viewNum){
                                 case 0:
                                     ((TextView)view).setText(questionList.get(quesNum).getQuestion());
@@ -194,14 +204,26 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                                     ((Button)view).setText(questionList.get(quesNum).getAnswer2());
                                     break;
                                 case 3:
-                                    ((Button)view).setText(questionList.get(quesNum).getAnswer3());
-                                    if(questionList.get(quesNum).getAnswer3().isEmpty())  answer3.setVisibility(View.INVISIBLE);
-                                    else answer3.setVisibility(View.VISIBLE);
+                                    if(questionList.get(quesNum).getAnswer3() == null) {
+                                        answer3.setVisibility(View.INVISIBLE);
+                                    } else {
+                                        if (questionList.get(quesNum).getAnswer3().isEmpty()) answer3.setVisibility(View.INVISIBLE);
+                                        else {
+                                            answer3.setVisibility(View.VISIBLE);
+                                            ((Button) view).setText(questionList.get(quesNum).getAnswer3());
+                                        }
+                                    }
                                     break;
                                 case 4:
-                                    ((Button)view).setText(questionList.get(quesNum).getAnswer4());
-                                    if(questionList.get(quesNum).getAnswer4().isEmpty())  answer4.setVisibility(View.INVISIBLE);
-                                    else answer4.setVisibility(View.VISIBLE);
+                                    if(questionList.get(quesNum).getAnswer4() == null) {
+                                            answer4.setVisibility(View.INVISIBLE);
+                                    } else {
+                                        if (questionList.get(quesNum).getAnswer4().isEmpty()) answer4.setVisibility(View.INVISIBLE);
+                                        else {
+                                            ((Button) view).setText(questionList.get(quesNum).getAnswer4());
+                                            answer4.setVisibility(View.VISIBLE);
+                                        }
+                                    }
                                     break;
                             }
 
