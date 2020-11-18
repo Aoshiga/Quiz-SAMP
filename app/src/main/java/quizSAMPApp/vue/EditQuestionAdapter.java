@@ -114,12 +114,12 @@ public class EditQuestionAdapter extends RecyclerView.Adapter<EditQuestionAdapte
 
         bValidateQuestion.setOnClickListener(v -> {
             if(etAddQuestion.getText().toString().isEmpty()) etAddQuestion.setError("Aucune question saisie!");
-            if(etAddAnswer1.getText().toString().isEmpty()) etAddAnswer1.setError("Les réponses 1 et 2 sont obligatoires!");
-            if(etAddAnswer2.getText().toString().isEmpty()) etAddAnswer2.setError("Les réponses 1 et 2 sont obligatoires!");
-            if(etCorrectAnswer.getText().toString().isEmpty()) etCorrectAnswer.setError("Vous devez indiquer quelle réponse est valide!");
-            if(etAddAnswer3.getText().toString().isEmpty() && etCorrectAnswer.getText().toString().equals("3")) etCorrectAnswer.setError("La réponse 3 est vide: elle ne peut pas être la bonne réponse!");
-            if(etAddAnswer4.getText().toString().isEmpty() && etCorrectAnswer.getText().toString().equals("4")) etCorrectAnswer.setError("La réponse 4 est vide: elle ne peut pas être la bonne réponse!");
-
+            else if(etAddAnswer1.getText().toString().isEmpty()) etAddAnswer1.setError("Les réponses 1 et 2 sont obligatoires!");
+            else if(etAddAnswer2.getText().toString().isEmpty()) etAddAnswer2.setError("Les réponses 1 et 2 sont obligatoires!");
+            else if(etCorrectAnswer.getText().toString().isEmpty()) etCorrectAnswer.setError("Vous devez indiquer quelle réponse est valide!");
+            else if(Integer.parseInt(etCorrectAnswer.getText().toString()) < 0 || Integer.parseInt(etCorrectAnswer.getText().toString()) > 4) etCorrectAnswer.setError("Aucune réponse ne correspond au numéro indiqué");
+            else if(etAddAnswer3.getText().toString().isEmpty() && etCorrectAnswer.getText().toString().equals("3")) etCorrectAnswer.setError("La réponse 3 est vide: elle ne peut pas être la bonne réponse!");
+            else if(etAddAnswer4.getText().toString().isEmpty() && etCorrectAnswer.getText().toString().equals("4")) etCorrectAnswer.setError("La réponse 4 est vide: elle ne peut pas être la bonne réponse!");
             else {
                 try {
                     int id = cursor.getInt(cursor.getColumnIndex(QuizSAMPDBDescription._ID));

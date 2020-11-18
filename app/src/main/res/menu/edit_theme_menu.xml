@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:id="@+id/gestion">
+        <item
+            android:id="@+id/action_play"
+            android:title="@string/mi_play">
+        </item>
+        <item
+            android:id="@+id/action_import_quizz"
+            android:title="@string/mi_import_quizz">
+        </item>
+    </group>
+</menu>

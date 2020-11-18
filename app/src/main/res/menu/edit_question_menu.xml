@@ -2,6 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:id="@+id/gestion">
         <item
+            android:id="@+id/action_play"
+            android:title="@string/mi_play">
+        </item>
+        <item
             android:id="@+id/action_edit"
             android:title="@string/mi_edit">
         </item>

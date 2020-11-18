@@ -25,4 +25,6 @@
     <string name="b_delete_question">Supprimer</string>
     <string name="default_theme">Theme</string>*
     <string name="b_edit_questions">Editer questions</string>
+    <string name="mi_import_quizz">Importer des thèmes</string>
+    <string name="t_loading">Chargement des données...</string>
 </resources>

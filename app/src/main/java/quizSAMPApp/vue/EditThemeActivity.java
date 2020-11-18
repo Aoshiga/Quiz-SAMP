@@ -6,24 +6,25 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.example.quizsamp.R;
 
 import quizSAMPApp.database.QuizSAMPDBHelper;
+import quizSAMPApp.httpImport.HttpQuizSAMPImport;
+import quizSAMPApp.modele.LoadingDialog;
 
 public class EditThemeActivity extends AppCompatActivity {
 
@@ -50,6 +51,23 @@ public class EditThemeActivity extends AppCompatActivity {
                 this.startActivity(intent);
                 EditThemeActivity.this.finish();
                 break;
+
+            case R.id.action_import_quizz:
+                HttpQuizSAMPImport httpquizSampImport = new HttpQuizSAMPImport(this);
+                httpquizSampImport.execute();
+                final LoadingDialog loadingDialog = new LoadingDialog(EditThemeActivity.this);
+                loadingDialog.startLoadingDialog();
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadingDialog.dismissDialog();
+                        finish();
+                        startActivity(getIntent());
+                    }
+                }, 3000);
+
+                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -57,7 +75,7 @@ public class EditThemeActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+        getMenuInflater().inflate(R.menu.edit_theme_menu, menu);
         return true;
     }
 
@@ -83,8 +101,6 @@ public class EditThemeActivity extends AppCompatActivity {
                 new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
                     @Override
                     public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                        if(viewHolder.getItemViewType() != target.getItemViewType()) return false;
-                        moveTheme(viewHolder.getAdapterPosition(), target.getAdapterPosition());
                         return true;
                     }
 
@@ -96,7 +112,7 @@ public class EditThemeActivity extends AppCompatActivity {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(viewThemes);
 
-
+        /*-------------  Add theme  -------------*/
         ImageButton bAddTheme = findViewById(R.id.b_add_theme);
 
         addThemeDialog = new Dialog(EditThemeActivity.this);
@@ -123,11 +139,14 @@ public class EditThemeActivity extends AppCompatActivity {
                 }
             }
         });
+
+        /*-------------  Loading dialog  -------------*/
+
+
     }
 
     public void addTheme(String name) {
         themes.insertTheme(name);
-        //if(adapter.hasObservers()) adapter.notifyItemInserted(adapter.getItemCount());
         adapter.swapCursor(themes.getThemeValuesCursor());
     }
 
@@ -157,13 +176,6 @@ public class EditThemeActivity extends AppCompatActivity {
     public void removeTheme(int pos) {
         themes.deleteThemeById(pos);
         adapter.swapCursor(themes.getThemeValuesCursor());
-    }
-
-    public void moveTheme(int indexSource, int indexCible) {
-        /*Theme theme = themes.get(indexSource);
-        themes.remove(indexSource);
-        themes.add(indexCible, theme);
-        if(adapter.hasObservers()) adapter.notifyItemMoved(indexSource, indexCible);*/
     }
 
     @Override

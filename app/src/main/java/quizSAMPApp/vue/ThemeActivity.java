@@ -12,6 +12,7 @@ import com.example.quizsamp.R;
 
 
 import quizSAMPApp.database.QuizSAMPDBHelper;
+import quizSAMPApp.httpImport.HttpQuizSAMPImport;
 import quizSAMPApp.modele.Question;
 
 public class ThemeActivity extends AppCompatActivity {

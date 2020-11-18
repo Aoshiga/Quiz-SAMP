@@ -7,6 +7,7 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -123,6 +124,13 @@ public class QuizSAMPDBHelper extends SQLiteOpenHelper {
     }
 
     public void insertQuestion(String themeName, String question, String answer1, String answer2, String answer3, String answer4, int correctAnswer) {
+        //check if question already exist with the theme themename
+        List<Question> questions = new ArrayList<>();
+        questions = getQuestionsFromThemeName(themeName);
+        for (Question q : questions) {
+            if(q.getQuestion().equals(question)) return;
+        }
+
         ContentValues values = new ContentValues();
         values.put(QuizSAMPDBDescription.COLUMN_ASSOCIATE_THEME, themeName);
         values.put(QuizSAMPDBDescription.COLUMN_QUESTION, question);
